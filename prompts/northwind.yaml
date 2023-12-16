@@ -1,0 +1,261 @@
+_type: prompt
+input_variables:
+    ["input"]
+template: 
+    '''Given below are the table structures in analytics database raw schema in mysql database
+      customers (
+          id INT,
+          company VARCHAR(50),
+          last_name VARCHAR(50),
+          first_name VARCHAR(50),
+          email_address VARCHAR(50),
+          job_title VARCHAR(50),
+          business_phone VARCHAR(25),
+          home_phone VARCHAR(25),
+          mobile_phone VARCHAR(25),
+          fax_number VARCHAR(25),
+          address LONGTEXT,
+          city VARCHAR(50),
+          state_province VARCHAR(50),
+          zip_postal_code VARCHAR(15),
+          country_region VARCHAR(50),
+          web_page LONGTEXT,
+          notes LONGTEXT,
+          attachments LONGBLOB
+      );
+      employee_privileges (
+          employee_id INT,
+          privilege_id INT
+      );
+      employees (
+          id INT,
+          company VARCHAR(50),
+          last_name VARCHAR(50),
+          first_name VARCHAR(50),
+          email_address VARCHAR(50),
+          job_title VARCHAR(50),
+          business_phone VARCHAR(25),
+          home_phone VARCHAR(25),
+          mobile_phone VARCHAR(25),
+          fax_number VARCHAR(25),
+          address LONGTEXT,
+          city VARCHAR(50),
+          state_province VARCHAR(50),
+          zip_postal_code VARCHAR(15),
+          country_region VARCHAR(50),
+          web_page LONGTEXT,
+          notes LONGTEXT,
+          attachments LONGBLOB
+      );
+      inventory_transaction_types (
+          id TINYINT,
+          type_name VARCHAR(50)
+      );
+      inventory_transactions (
+          id INT,
+          transaction_type TINYINT,
+          transaction_created_date DATETIME,
+          transaction_modified_date DATETIME,
+          product_id INT,
+          quantity INT,
+          purchase_order_id INT,
+          customer_order_id INT,
+          comments VARCHAR(255)
+      );
+      invoices (
+          id INT,
+          order_id INT,
+          invoice_date DATETIME,
+          due_date DATETIME,
+          tax DECIMAL(19,4),
+          shipping DECIMAL(19,4),
+          amount_due DECIMAL(19,4)
+      );
+      order_details (
+          id INT,
+          order_id INT,
+          product_id INT,
+          quantity DECIMAL(18,4),
+          unit_price DECIMAL(19,4),
+          discount DOUBLE,
+          status_id INT,
+          date_allocated DATETIME,
+          purchase_order_id INT,
+          inventory_id INT
+      );
+      order_details_status (
+          id INT,
+          status_name VARCHAR(50)
+      );
+      orders (
+          id INT,
+          employee_id INT,
+          customer_id INT,
+          order_date DATETIME,
+          shipped_date DATETIME,
+          shipper_id INT,
+          ship_name VARCHAR(50),
+          ship_address LONGTEXT,
+          ship_city VARCHAR(50),
+          ship_state_province VARCHAR(50),
+          ship_zip_postal_code VARCHAR(50),
+          ship_country_region VARCHAR(50),
+          shipping_fee DECIMAL(19,4),
+          taxes DECIMAL(19,4),
+          payment_type VARCHAR(50),
+          paid_date DATETIME,
+          notes LONGTEXT,
+          tax_rate DOUBLE,
+          tax_status_id TINYINT,
+          status_id TINYINT
+      );
+      orders_status (
+          id TINYINT,
+          status_name VARCHAR(50)
+      );
+      orders_tax_status (
+          id TINYINT,
+          tax_status_name VARCHAR(50)
+      );
+      privileges (
+          id INT,
+          privilege_name VARCHAR(50)
+      );
+      products (
+          supplier_ids LONGTEXT,
+          id INT,
+          product_code VARCHAR(25),
+          product_name VARCHAR(50),
+          description LONGTEXT,
+          standard_cost DECIMAL(19,4),
+          list_price DECIMAL(19,4),
+          reorder_level INT,
+          target_level INT,
+          quantity_per_unit VARCHAR(50),
+          discontinued TINYINT(1),
+          minimum_reorder_quantity INT,
+          category VARCHAR(50),
+          attachments LONGBLOB
+      );
+      purchase_order_details (
+          id INT,
+          purchase_order_id INT,
+          product_id INT,
+          quantity DECIMAL(18,4),
+          unit_cost DECIMAL(19,4),
+          date_received DATETIME,
+          posted_to_inventory TINYINT(1),
+          inventory_id INT
+      );
+      purchase_order_status (
+          id INT,
+          status VARCHAR(50)
+      );
+      purchase_orders (
+          id INT,
+          supplier_id INT,
+          created_by INT,
+          submitted_date DATETIME,
+          creation_date DATETIME,
+          status_id INT,
+          expected_date DATETIME,
+          shipping_fee DECIMAL(19,4),
+          taxes DECIMAL(19,4),
+          payment_date DATETIME,
+          payment_amount DECIMAL(19,4),
+          payment_method VARCHAR(50),
+          notes LONGTEXT,
+          approved_by INT,
+          approved_date DATETIME,
+          submitted_by INT
+      );
+      sales_reports (
+          group_by VARCHAR(50),
+          display VARCHAR(50),
+          title VARCHAR(50),
+          filter_row_source LONGTEXT,
+          default TINYINT(1)
+      );
+      shippers (
+          id INT,
+          company VARCHAR(50),
+          last_name VARCHAR(50),
+          first_name VARCHAR(50),
+          email_address VARCHAR(50),
+          job_title VARCHAR(50),
+          business_phone VARCHAR(25),
+          home_phone VARCHAR(25),
+          mobile_phone VARCHAR(25),
+          fax_number VARCHAR(25),
+          address LONGTEXT,
+          city VARCHAR(50),
+          state_province VARCHAR(50),
+          zip_postal_code VARCHAR(15),
+          country_region VARCHAR(50),
+          web_page LONGTEXT,
+          notes LONGTEXT,
+          attachments LONGBLOB
+      );
+      strings (
+          string_id INT,
+          string_data VARCHAR(255)
+      );
+      suppliers (
+          id INT,
+          company VARCHAR(50),
+          last_name VARCHAR(50),
+          first_name VARCHAR(50),
+          email_address VARCHAR(50),
+          job_title VARCHAR(50),
+          business_phone VARCHAR(25),
+          home_phone VARCHAR(25),
+          mobile_phone VARCHAR(25),
+          fax_number VARCHAR(25),
+          address LONGTEXT,
+          city VARCHAR(50),
+          state_province VARCHAR(50),
+          zip_postal_code VARCHAR(15),
+          country_region VARCHAR(50),
+          web_page LONGTEXT,
+          notes LONGTEXT,
+          attachments LONGBLOB
+      );
+      take user questions and response back with sql query.
+      example :
+        user question : show the names and phone numbers of customers who have placed orders
+        your generated sql query : SELECT customers.first_name, customers.last_name, customers.mobile_phone
+                                    FROM customers
+                                    JOIN orders ON customers.id = orders.customer_id;
+
+      example:
+        user_question: Display all products that need to be reordered.
+        your generated sql query : SELECT products.product_name, products.quantity_per_unit
+                                    FROM products
+                                    WHERE products.quantity_per_unit <= products.reorder_level;
+
+      example:
+        user_question: Show the total quantity of products sold in each order.
+        your generated sql query : SELECT orders.id AS OrderID, SUM(order_details.quantity) AS TotalProducts
+                                    FROM orders
+                                    JOIN order_details ON orders.id = order_details.order_id
+                                    GROUP BY orders.id;
+      
+      example:
+        user_question: Show the total sales amount for each product category and the supplier who supplied the most items in that category.
+        your generated sql query : SELECT 
+                                      products.category AS Category, 
+                                      SUM(order_details.quantity * order_details.unit_price) AS TotalSales,
+                                      (SELECT suppliers.company 
+                                        FROM suppliers 
+                                        JOIN products p ON FIND_IN_SET(suppliers.id, p.supplier_ids) > 0 
+                                        WHERE p.category = products.category 
+                                        GROUP BY suppliers.id 
+                                        ORDER BY SUM(order_details.quantity) DESC 
+                                        LIMIT 1) AS TopSupplier
+                                    FROM products
+                                    JOIN order_details ON products.id = order_details.product_id
+                                    JOIN orders ON order_details.order_id = orders.id
+                                    GROUP BY products.category;
+
+      user question : {input}
+      your generated sql query : '''

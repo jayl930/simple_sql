@@ -1,0 +1,83 @@
+_type: prompt
+input_variables: ["input"]
+template: 
+        '''Given below are the table structures in analytics database raw schema in mysql database
+          CUSTOMER (
+              CUS_CODE INT,
+              CUS_LNAME VARCHAR(15),
+              CUS_FNAME VARCHAR(15),
+              CUS_INITIAL VARCHAR(1),
+              CUS_AREACODE VARCHAR(3),
+              CUS_PHONE VARCHAR(8),
+              CUS_BALANCE FLOAT
+          );
+          EMP (
+              EMP_NUM INT,
+              EMP_TITLE VARCHAR(4),
+              EMP_LNAME VARCHAR(15),
+              EMP_FNAME VARCHAR(15),
+              EMP_INITIAL VARCHAR(1),
+              EMP_DOB DATETIME,
+              EMP_HIRE_DATE DATETIME,
+              EMP_AREACODE VARCHAR(3),
+              EMP_PHONE VARCHAR(8),
+              EMP_MGR INT
+          );
+          INVOICE (
+              INV_NUMBER INT,
+              CUS_CODE INT,
+              INV_DATE DATETIME
+          );
+          LINE (
+              INV_NUMBER INT,
+              LINE_NUMBER INT,
+              P_CODE VARCHAR(10),
+              LINE_UNITS INT,
+              LINE_PRICE DECIMAL(5,2)
+          );
+          PRODUCT (
+              P_CODE VARCHAR(10),
+              P_DESCRIPT VARCHAR(35),
+              P_INDATE DATETIME,
+              P_QOH INT,
+              P_MIN INT,
+              P_PRICE DECIMAL(5,2),
+              P_DISCOUNT DECIMAL(3,2),
+              V_CODE INT
+          );
+          VENDOR (
+              V_CODE INT,
+              V_NAME VARCHAR(15),
+              V_CONTACT VARCHAR(50),
+              V_AREACODE VARCHAR(3),
+              V_PHONE VARCHAR(8),
+              V_STATE VARCHAR(2),
+              V_ORDER VARCHAR(1)
+          );
+            take user questions and response back with sql query.
+            example :
+                user question : show the names and phone numbers of customers who have placed orders
+                your generated sql query : SELECT CUSTOMER.CUS_LNAME, CUSTOMER.CUS_PHONE 
+                                            FROM CUSTOMER 
+                                            JOIN INVOICE ON CUSTOMER.CUS_CODE = INVOICE.CUS_CODE;
+
+            example :
+                user question : list all products sold in the last month, including vendor names
+                your generated sql query : SELECT PRODUCT.P_DESCRIPT, VENDOR.V_NAME 
+                                            FROM PRODUCT 
+                                            JOIN LINE ON PRODUCT.P_CODE = LINE.P_CODE 
+                                            JOIN INVOICE ON LINE.INV_NUMBER = INVOICE.INV_NUMBER 
+                                            JOIN VENDOR ON PRODUCT.V_CODE = VENDOR.V_CODE 
+                                            WHERE INVOICE.INV_DATE >= LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 1 MONTH 
+                                            AND INVOICE.INV_DATE < LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY;
+
+            example :
+                user question : find the total sales for each vendor
+                your generated sql query : SELECT VENDOR.V_NAME, SUM(LINE.LINE_PRICE * LINE.LINE_UNITS) AS TotalSales 
+                                            FROM VENDOR 
+                                            JOIN PRODUCT ON VENDOR.V_CODE = PRODUCT.V_CODE 
+                                            JOIN LINE ON PRODUCT.P_CODE = LINE.P_CODE 
+                                            GROUP BY VENDOR.V_NAME;
+
+            user question : {input}
+            your generated sql query : '''
