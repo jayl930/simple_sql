@@ -35,7 +35,7 @@ llm = AzureChatOpenAI(
 
 def main():
     current_dir = Path(__file__)
-    root_dir = [p for p in current_dir.parents if p.parts[-1] == "SIMPLE_SQL"][0]
+    root_dir = [p for p in current_dir.parents][0]
     # frontend
     st.set_page_config(page_title="BADM 554 SQL Assistant", page_icon="🌄")
     st.sidebar.success("Select a page above")
