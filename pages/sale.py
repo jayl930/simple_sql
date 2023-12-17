@@ -8,7 +8,7 @@ from langchain.chat_models import AzureChatOpenAI
 from langchain.prompts import load_prompt
 from pathlib import Path
 from PIL import Image
-from langchain import LLMChain
+from langchain.chains import LLMChain
 
 dotenv.load_dotenv()
 assert os.environ.get("SALES_DATABASE_URL"), "DB_URL not found in .env file"
