@@ -49,7 +49,7 @@ def main():
         image = Image.open("images/northwind.png")
         st.image(image, caption="Entity Relationship")
 
-    prompt_template = load_prompt("/prompts/northwind.yaml")
+    prompt_template = load_prompt("prompts/northwind.yaml")
     final_prompt = prompt_template.format(input=prompt)
 
     sql_generation_chain = LLMChain(llm=llm, prompt=prompt_template, verbose=True)
