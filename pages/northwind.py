@@ -35,7 +35,7 @@ llm = AzureChatOpenAI(
 
 def main():
     current_dir = Path(__file__)
-    root_dir = [p for p in current_dir.parents][0]
+    # root_dir = [p for p in current_dir.parents][0]
     # frontend
     st.set_page_config(page_title="BADM 554 SQL Assistant", page_icon="🌄")
     st.sidebar.success("Select a page above")
@@ -46,10 +46,10 @@ def main():
     prompt = st.text_input("Enter your query")
     tabs = st.tabs(tab_titles)
     with tabs[2]:
-        image = Image.open("{}/images/northwind.png".format(root_dir))
+        image = Image.open("images/northwind.png")
         st.image(image, caption="Entity Relationship")
 
-    prompt_template = load_prompt(f"{root_dir}/prompts/northwind.yaml")
+    prompt_template = load_prompt("/prompts/northwind.yaml")
     final_prompt = prompt_template.format(input=prompt)
 
     sql_generation_chain = LLMChain(llm=llm, prompt=prompt_template, verbose=True)
