@@ -1,7 +1,7 @@
 import streamlit as st
 
 st.set_page_config(
-    page_title="BADM 54 SQL Assistant",
+    page_title="BADM 554 SQL Assistant",
     page_icon="👋",
 )
 
